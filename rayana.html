@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rayana — доставка еды</title>
+<style>
+:root{--bg:#f6f5f3;--card:#fff;--ink:#1d1b19;--mute:#76716b;--line:#e8e5e0;--ac:#ff6a13;--ac2:#e5560a;--ok:#1fa35b;--sh:0 2px 14px rgba(30,20,10,.07);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161412;--card:#221f1c;--ink:#f4f0ea;--mute:#a49d94;--line:#37322d;--sh:0 2px 14px rgba(0,0,0,.4);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161412;--card:#221f1c;--ink:#f4f0ea;--mute:#a49d94;--line:#37322d;--sh:0 2px 14px rgba(0,0,0,.4);color-scheme:dark}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:128px}
+body{background:var(--bg);color:var(--ink);font-family:"Nunito","Segoe UI",system-ui,sans-serif;line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+header{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line)}
+.top{max-width:1180px;margin:auto;display:flex;align-items:center;gap:12px;padding:10px 16px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:24px;letter-spacing:-.5px}
+.logo svg{width:38px;height:38px}
+.sp{flex:1}
+.lang{display:flex;background:var(--bg);border-radius:99px;padding:3px}
+.lang button{padding:6px 13px;border-radius:99px;font-weight:800;font-size:13px;color:var(--mute)}
+.lang button.on{background:var(--ac);color:#fff}
+.cartbtn{background:var(--ac);color:#fff;font-weight:800;padding:10px 18px;border-radius:99px;display:flex;gap:8px;align-items:center;transition:background .15s}
+.cartbtn:hover{background:var(--ac2)}
+.cartbtn i{font-style:normal;background:#fff;color:var(--ac);border-radius:99px;min-width:22px;height:22px;display:grid;place-items:center;font-size:13px;padding:0 6px}
+nav{border-top:1px solid var(--line)}
+.tabs{max-width:1180px;margin:auto;display:flex;gap:6px;overflow-x:auto;padding:8px 16px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{white-space:nowrap;text-decoration:none;color:var(--ink);font-weight:800;font-size:14px;padding:8px 15px;border-radius:99px;background:var(--bg)}
+.tabs a:hover,.tabs a.on{background:var(--ink);color:var(--bg)}
+.hero{max-width:1180px;margin:18px auto 0;padding:0 16px}
+.hb{background:linear-gradient(120deg,#ff6a13,#ff9a3c);border-radius:26px;color:#fff;padding:38px 34px;display:flex;align-items:center;justify-content:space-between;gap:16px;overflow:hidden;position:relative}
+.hb h1{font-size:clamp(28px,5vw,48px);line-height:1.05;font-weight:900;letter-spacing:-1px;max-width:560px}
+.hb p{margin-top:12px;font-weight:700;opacity:.95;max-width:430px}
+.hb .big{font-size:clamp(70px,14vw,150px);line-height:1;filter:drop-shadow(0 8px 12px rgba(0,0,0,.2));flex:none}
+.hb button{margin-top:18px;background:#fff;color:var(--ac2);font-weight:900;padding:12px 24px;border-radius:99px}
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.perks div{background:var(--card);border-radius:16px;padding:12px 14px;font-weight:800;font-size:14px;box-shadow:var(--sh)}
+.perks span{font-size:22px;margin-right:6px}
+main{max-width:1180px;margin:auto;padding:8px 16px 90px}
+h2{font-size:28px;font-weight:900;letter-spacing:-.5px;margin:30px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.card{background:var(--card);border-radius:20px;box-shadow:var(--sh);overflow:hidden;display:flex;flex-direction:column;transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.pic{height:140px;display:grid;place-items:center;font-size:76px}
+.info{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;flex:1}
+.nm{font-weight:900;font-size:16px;line-height:1.2}
+.ds{font-size:13px;color:var(--mute);flex:1}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pr{font-weight:900;font-size:17px}
+.add{background:#fff3ea;color:var(--ac2);font-weight:800;padding:8px 16px;border-radius:99px}
+.add:hover{background:var(--ac);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .add{background:#3a2a1e}}
+.qty{display:flex;align-items:center;background:var(--bg);border-radius:99px}
+.qty button{width:32px;height:32px;font-size:18px;font-weight:900;color:var(--ac2)}
+.qty b{min-width:22px;text-align:center}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.ov.on{opacity:1;pointer-events:auto}
+.dr{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--card);z-index:50;transform:translateX(105%);transition:transform .25s;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+.dr.on{transform:none}
+.dh{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}
+.dh h3{font-size:22px;font-weight:900}
+.x{width:36px;height:36px;border-radius:50%;background:var(--bg);font-size:18px}
+.items{flex:1;overflow-y:auto;padding:6px 18px}
+.it{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.it .e{font-size:34px;width:52px;height:52px;display:grid;place-items:center;background:var(--bg);border-radius:14px;flex:none}
+.it .t{flex:1;font-weight:800;font-size:14px}
+.it .t small{display:block;color:var(--mute);font-weight:700}
+.empty{text-align:center;color:var(--mute);padding:60px 10px;font-weight:700}
+.empty div{font-size:60px}
+.foot{padding:14px 18px calc(16px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.foot input,.foot textarea{width:100%;font:inherit;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);resize:none}
+.sm{display:flex;justify-content:space-between;font-weight:700;font-size:14px;color:var(--mute)}
+.sm.t{font-size:20px;font-weight:900;color:var(--ink)}
+.free{font-size:12.5px;font-weight:800;color:var(--ok)}
+.bar{height:6px;background:var(--bg);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);transition:width .25s}
+.buy{background:#25d366;color:#fff;font-weight:900;font-size:17px;padding:14px;border-radius:16px;display:flex;justify-content:center;gap:8px;align-items:center}
+.buy:disabled{opacity:.45;cursor:not-allowed}
+.buy:not(:disabled):hover{background:#1ebe5a}
+footer{background:var(--card);border-top:1px solid var(--line);padding:26px 16px 40px;text-align:center;color:var(--mute);font-weight:700;font-size:14px}
+.bot{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:15;display:none}
+.bot button{width:100%;background:var(--ac);color:#fff;font-weight:900;padding:14px 20px;border-radius:18px;display:flex;justify-content:space-between;box-shadow:0 6px 22px rgba(255,106,19,.45)}
+@media (max-width:640px){.hb{padding:26px 20px}.hb .big{display:none}.perks{grid-template-columns:1fr}.bot.show{display:block}.cartbtn span{display:none}.grid{grid-template-columns:repeat(2,1fr);gap:10px}.pic{height:110px;font-size:60px}h2{font-size:23px}.logo{font-size:21px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top">
+  <div class="logo" aria-label="Rayana">
+   <svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#ff6a13"/><path d="M13 29V11h8.5a5.5 5.5 0 0 1 .6 10.97L27 29h-4.2l-4.6-6.7H16.6V29z M16.6 14.2v5h4.7a2.5 2.5 0 0 0 0-5z" fill="#fff" fill-rule="evenodd"/></svg>
+   Rayana
+  </div>
+  <div class="sp"></div>
+  <div class="lang" role="group" aria-label="Language"><button id="lru">RU</button><button id="lkk">ҚАЗ</button></div>
+  <button class="cartbtn" id="open">🛒 <span data-t="cart">Корзина</span><i id="cnt">0</i></button>
+ </div>
+ <nav><div class="tabs" id="tabs"></div></nav>
+</header>
+
+<section class="hero">
+ <div class="hb">
+  <div>
+   <h1 data-t="h1">Горячая еда за 30 минут</h1>
+   <p data-t="h1p">Бургеры, донер, суши и роллы. Собери заказ — мы отправим его в WhatsApp.</p>
+   <button id="go" data-t="menu">Смотреть меню</button>
+  </div>
+  <div class="big">🍔</div>
+ </div>
+ <div class="perks">
+  <div><span>🛵</span><b data-t="p1">Быстрая доставка</b></div>
+  <div><span>🔥</span><b data-t="p2">Всегда свежее</b></div>
+  <div><span>💬</span><b data-t="p3">Заказ через WhatsApp</b></div>
+ </div>
+</section>
+
+<main id="menu"></main>
+
+<footer>
+ <div class="logo" style="justify-content:center;margin-bottom:8px"><span style="color:var(--ink)">Rayana</span></div>
+ <div data-t="ft">Доставка еды · Принимаем заказы ежедневно</div>
+ <div style="margin-top:6px">WhatsApp: +7 777 227 12 70</div>
+</footer>
+
+<div class="bot" id="bot"><button id="open2"><span>🛒 <span data-t="cart">Корзина</span></span><b id="bt">0 ₸</b></button></div>
+<div class="ov" id="ov"></div>
+<aside class="dr" id="dr" aria-label="Cart">
+ <div class="dh"><h3 data-t="cart">Корзина</h3><button class="x" id="close" aria-label="Close">✕</button></div>
+ <div class="items" id="items"></div>
+ <div class="foot">
+  <div class="bar"><i id="barf"></i></div>
+  <div class="free" id="free"></div>
+  <div class="sm"><span data-t="sub">Сумма заказа</span><span id="s1">0 ₸</span></div>
+  <div class="sm"><span data-t="del">Доставка</span><span id="s2">0 ₸</span></div>
+  <div class="sm t"><span data-t="tot">Итого</span><span id="s3">0 ₸</span></div>
+  <input id="nm" data-p="name" autocomplete="name">
+  <input id="ad" data-p="addr" autocomplete="street-address">
+  <textarea id="cm" rows="2" data-p="comm"></textarea>
+  <button class="buy" id="buy" disabled>💬 <span data-t="buy">Заказать в WhatsApp</span></button>
+ </div>
+</aside>
+
+<script>
+const PHONE="77772271270",FREE=6000,FEE=700;
+const T={
+ru:{cart:"Корзина",h1:"Горячая еда за 30 минут",h1p:"Бургеры, донер, суши и роллы. Собери заказ — мы отправим его в WhatsApp.",menu:"Смотреть меню",p1:"Быстрая доставка",p2:"Всегда свежее",p3:"Заказ через WhatsApp",ft:"Доставка еды · Принимаем заказы ежедневно",sub:"Сумма заказа",del:"Доставка",tot:"Итого",buy:"Заказать в WhatsApp",add:"В корзину",name:"Ваше имя",addr:"Адрес доставки",comm:"Комментарий к заказу",empty:"Корзина пуста. Добавьте что-нибудь вкусное!",free0:"Бесплатно",more:s=>`Добавьте ещё на ${s} ₸ — доставка будет бесплатной`,freeok:"Доставка бесплатная! 🎉",hi:"Здравствуйте! Я хочу заказать:",it:"Итого",dl:"Доставка",n:"Имя",a:"Адрес",c:"Комментарий",pcs:"шт"},
+kk:{cart:"Себет",h1:"Ыстық тағам 30 минутта",h1p:"Бургер, донер, суши және роллдар. Тапсырысты жинаңыз — біз оны WhatsApp-қа жібереміз.",menu:"Мәзірді көру",p1:"Жылдам жеткізу",p2:"Әрқашан жаңа",p3:"WhatsApp арқылы тапсырыс",ft:"Тағам жеткізу · Күн сайын тапсырыс қабылдаймыз",sub:"Тапсырыс сомасы",del:"Жеткізу",tot:"Барлығы",buy:"WhatsApp-қа тапсырыс беру",add:"Себетке",name:"Атыңыз",addr:"Жеткізу мекенжайы",comm:"Тапсырысқа пікір",empty:"Себет бос. Дәмді бірдеңе қосыңыз!",free0:"Тегін",more:s=>`Тағы ${s} ₸ қосыңыз — жеткізу тегін болады`,freeok:"Жеткізу тегін! 🎉",hi:"Сәлеметсіз бе! Мен мынаны тапсырыс бергім келеді:",it:"Барлығы",dl:"Жеткізу",n:"Аты",a:"Мекенжай",c:"Пікір",pcs:"дана"}};
+const CATS=[
+["burger","🍔","Бургеры","Бургерлер","#ffe3cc"],
+["doner","🌯","Донер","Донер","#ffeab8"],
+["sushi","🍣","Суши","Суши","#ffd9d6"],
+["roll","🍱","Роллы","Роллдар","#fbd9e8"],
+["snack","🍟","Наггетсы и закуски","Наггетс және тіскебасарлар","#fff0b3"],
+["drink","🥤","Напитки","Сусындар","#d6ecff"],
+["sauce","🥫","Соусы","Тұздықтар","#ffd6c2"]];
+const M=[
+["burger","🍔","Чизбургер","Чизбургер","Сочная котлета, чеддер, соус","Шырынды котлет, чеддер, тұздық",1490],
+["burger","🍔","Двойной чизбургер","Қос чизбургер","Две котлеты и двойной сыр","Екі котлет және қос ірімшік",2190],
+["burger","🐔","Чикен бургер","Тауық бургер","Хрустящее филе, салат, майонез","Қытырлақ филе, салат, майонез",1590],
+["burger","🌶️","Острый бургер","Ащы бургер","Халапеньо, острый соус, сыр","Халапеньо, ащы тұздық, ірімшік",1690],
+["burger","👑","Rayana бургер","Rayana бургері","Фирменный: две котлеты, бекон, соус","Фирмалық: екі котлет, бекон, тұздық",2490],
+["doner","🌯","Донер классический","Классикалық донер","Курица, свежие овощи, соус","Тауық, жаңа піскен көкөніс, тұздық",1590],
+["doner","🧀","Донер с сыром","Ірімшікті донер","Курица, сыр, овощи","Тауық, ірімшік, көкөніс",1790],
+["doner","🥩","Донер с говядиной","Сиыр етті донер","Нежная говядина, лаваш, соус","Жұмсақ сиыр еті, лаваш, тұздық",1990],
+["doner","🌶️","Донер острый","Ащы донер","С чили и чесночным соусом","Чили және сарымсақ тұздығымен",1690],
+["doner","🔥","Донер XL","Донер XL","Двойная порция мяса","Қос порция ет",2490],
+["sushi","🍣","Суши с лососем","Албырт суши","1 шт, свежий лосось","1 дана, жаңа албырт",790],
+["sushi","🍤","Суши с креветкой","Асшаяны суши","1 шт, тигровая креветка","1 дана, жолақты асшаян",690],
+["sushi","🐟","Суши с угрём","Жыланбалықты суши","1 шт, копчёный угорь","1 дана, ысталған жыланбалық",850],
+["sushi","🍙","Гункан с тунцом","Тунецті гункан","1 шт, тунец, спайси-соус","1 дана, тунец, спайси тұздық",850],
+["roll","🍣","Филадельфия","Филадельфия","8 шт, лосось, сливочный сыр","8 дана, албырт, кілегей ірімшік",3190],
+["roll","🥑","Калифорния","Калифорния","8 шт, краб, авокадо, икра","8 дана, краб, авокадо, уылдырық",2590],
+["roll","🔥","Запечённый ролл с курицей","Тауықты пісірілген ролл","8 шт, под сырной шапкой","8 дана, ірімшік қабығымен",2390],
+["roll","🥒","Ролл с огурцом","Қыярлы ролл","6 шт, лёгкий и свежий","6 дана, жеңіл әрі балғын",1490],
+["roll","🍤","Темпура ролл","Темпура ролл","8 шт, креветка в темпуре","8 дана, темпурадағы асшаян",2490],
+["roll","🎏","Сет Rayana","Rayana сеті","32 шт: 4 вида роллов","32 дана: 4 түрлі ролл",9990],
+["snack","🍗","Наггетсы 6 шт","Наггетс 6 дана","Нежное куриное филе","Жұмсақ тауық филесі",1190],
+["snack","🍗","Наггетсы 12 шт","Наггетс 12 дана","Для компании","Компанияға арналған",2090],
+["snack","🍟","Картофель фри","Фри картоп","Золотистый и хрустящий","Алтындай қытырлақ",790],
+["snack","🥔","Картофель по-деревенски","Ауылша картоп","С пряными специями","Хош иісті дәмдеуіштермен",890],
+["snack","🧅","Луковые кольца","Пияз сақиналары","8 шт, в хрустящей панировке","8 дана, қытырлақ қабықта",890],
+["snack","🌭","Хот-дог","Хот-дог","Сосиска, булочка, соусы","Шұжық, тоқаш, тұздықтар",990],
+["snack","🍖","Крылышки BBQ","BBQ қанаттары","6 шт, соус барбекю","6 дана, барбекю тұздығы",1890],
+["drink","🥤","Кола 0.5 л","Кола 0.5 л","Холодная, с газом","Салқын, газды",590],
+["drink","🍊","Фанта 0.5 л","Фанта 0.5 л","Апельсиновая","Апельсинді",590],
+["drink","🍋","Спрайт 0.5 л","Спрайт 0.5 л","Лимон-лайм","Лимон-лайм",590],
+["drink","🧃","Сок яблочный","Алма шырыны","0.3 л","0.3 л",690],
+["drink","🍑","Холодный чай","Мұздай шай","Персик, 0.5 л","Шабдалы, 0.5 л",690],
+["drink","🍹","Лимонад","Лимонад","Домашний, 0.4 л","Үйдегідей, 0.4 л",990],
+["drink","🥛","Молочный коктейль","Сүт коктейлі","Ваниль или клубника","Ваниль немесе құлпынай",1290],
+["drink","💧","Вода","Су","0.5 л, без газа","0.5 л, газсыз",390],
+["sauce","🧀","Сырный соус","Ірімшікті тұздық","30 г","30 г",250],
+["sauce","🧄","Чесночный соус","Сарымсақ тұздығы","30 г","30 г",250],
+["sauce","🍅","Кетчуп","Кетчуп","30 г","30 г",150],
+["sauce","🍖","BBQ соус","BBQ тұздығы","30 г","30 г",250],
+["sauce","🌶️","Острый соус","Ащы тұздық","30 г","30 г",250],
+["sauce","🥢","Соевый соус","Соя тұздығы","Для суши и роллов","Суши мен роллдарға",150],
+["sauce","🌿","Васаби и имбирь","Васаби және зімбір","Набор для суши","Суши жинағы",200]
+].map((r,i)=>({id:i,c:r[0],e:r[1],ru:r[2],kk:r[3],dr:r[4],dk:r[5],p:r[6]}));
+
+let lang="ru",cart={};
+try{lang=localStorage.getItem("rl")||"ru";cart=JSON.parse(localStorage.getItem("rc")||"{}")}catch(e){}
+const $=i=>document.getElementById(i),fmt=n=>n.toLocaleString("ru-RU").replace(/\u00a0/g," ")+" ₸";
+const save=()=>{try{localStorage.setItem("rc",JSON.stringify(cart));localStorage.setItem("rl",lang)}catch(e){}};
+const t=k=>T[lang][k];
+
+function renderMenu(){
+ $("tabs").innerHTML=CATS.map(c=>`<a href="#c-${c[0]}">${c[1]} ${lang=="ru"?c[2]:c[3]}</a>`).join("");
+ $("menu").innerHTML=CATS.map(c=>`<h2 id="c-${c[0]}">${lang=="ru"?c[2]:c[3]}</h2><div class="grid">`+M.filter(m=>m.c==c[0]).map(m=>`
+ <div class="card"><div class="pic" style="background:${c[4]}">${m.e}</div><div class="info">
+ <div class="nm">${m[lang]}</div><div class="ds">${lang=="ru"?m.dr:m.dk}</div>
+ <div class="row"><span class="pr">${fmt(m.p)}</span><span data-slot="${m.id}"></span></div></div></div>`).join("")+`</div>`).join("");
+ slots();
+}
+function slots(){
+ document.querySelectorAll("[data-slot]").forEach(s=>{
+  const id=s.dataset.slot,q=cart[id]||0;
+  s.innerHTML=q?`<div class="qty"><button data-d="-1" data-id="${id}" aria-label="−">−</button><b>${q}</b><button data-d="1" data-id="${id}" aria-label="+">+</button></div>`:`<button class="add" data-d="1" data-id="${id}">${t("add")}</button>`;
+ });
+}
+function calc(){
+ let sub=0,n=0;for(const id in cart){sub+=M[id].p*cart[id];n+=cart[id]}
+ const del=!n?0:sub>=FREE?0:FEE,tot=sub+del;
+ return{sub,n,del,tot};
+}
+function renderCart(){
+ const {sub,n,del,tot}=calc();
+ $("cnt").textContent=n;$("bt").textContent=fmt(tot);$("bot").classList.toggle("show",n>0);
+ $("items").innerHTML=n?Object.keys(cart).map(id=>{const m=M[id],q=cart[id];return `<div class="it"><div class="e">${m.e}</div><div class="t">${m[lang]}<small>${fmt(m.p)} × ${q} = ${fmt(m.p*q)}</small></div><div class="qty"><button data-d="-1" data-id="${id}">−</button><b>${q}</b><button data-d="1" data-id="${id}">+</button></div></div>`}).join(""):`<div class="empty"><div>🛒</div>${t("empty")}</div>`;
+ $("s1").textContent=fmt(sub);$("s2").textContent=n?(del?fmt(del):t("free0")):fmt(0);$("s3").textContent=fmt(tot);
+ $("barf").style.width=Math.min(100,sub/FREE*100)+"%";
+ $("free").textContent=!n?"":sub>=FREE?t("freeok"):t("more")(FREE-sub);
+ $("buy").disabled=!n;
+ slots();save();
+}
+function change(id,d){const q=(cart[id]||0)+d;if(q<=0)delete cart[id];else cart[id]=Math.min(q,50);renderCart()}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b)change(b.dataset.id,+b.dataset.d)});
+const dr=(on)=>{$("dr").classList.toggle("on",on);$("ov").classList.toggle("on",on)};
+["open","open2"].forEach(i=>$(i).onclick=()=>dr(true));$("close").onclick=$("ov").onclick=()=>dr(false);
+$("go").onclick=()=>$("c-burger").scrollIntoView();
+$("buy").onclick=()=>{
+ const {sub,del,tot}=calc();
+ let m=t("hi")+"\n\n"+Object.keys(cart).map(id=>`• ${M[id][lang]} × ${cart[id]} — ${fmt(M[id].p*cart[id])}`).join("\n");
+ m+=`\n\n${t("dl")}: ${del?fmt(del):t("free0")}\n${t("it")}: ${fmt(tot)}`;
+ if($("nm").value.trim())m+=`\n\n${t("n")}: ${$("nm").value.trim()}`;
+ if($("ad").value.trim())m+=`\n${t("a")}: ${$("ad").value.trim()}`;
+ if($("cm").value.trim())m+=`\n${t("c")}: ${$("cm").value.trim()}`;
+ window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(m)}`,"_blank");
+};
+function setLang(l){
+ lang=l;document.documentElement.lang=l=="kk"?"kk":"ru";
+ $("lru").classList.toggle("on",l=="ru");$("lkk").classList.toggle("on",l=="kk");
+ document.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
+ document.querySelectorAll("[data-p]").forEach(el=>el.placeholder=t(el.dataset.p));
+ document.title="Rayana — "+(l=="ru"?"доставка еды":"тағам жеткізу");
+ renderMenu();renderCart();
+}
+$("lru").onclick=()=>setLang("ru");$("lkk").onclick=()=>setLang("kk");
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)document.querySelectorAll(".tabs a").forEach(a=>a.classList.toggle("on",a.getAttribute("href")=="#"+e.target.id))}),{rootMargin:"-140px 0px -70% 0px"});
+setLang(lang);document.querySelectorAll("h2[id]").forEach(h=>io.observe(h));
+document.getElementById("lru").addEventListener("click",()=>setTimeout(()=>document.querySelectorAll("h2[id]").forEach(h=>io.observe(h))));
+document.getElementById("lkk").addEventListener("click",()=>setTimeout(()=>document.querySelectorAll("h2[id]").forEach(h=>io.observe(h))));
+</script>
+</body>
+</html>
